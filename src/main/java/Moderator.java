@@ -17,9 +17,9 @@ public class Moderator {
         attacker.updateManaSlotAndRefreshRemainingMana();
         if(attacker.getDamageCardDeck().size() > 0) {
             if(attacker.getDamageCardsOnHand().size() >= maxCardCountOnHand) {
+                //Since attacking player has maximum number of cards on hand for an attack, the new card drawn from deck is discarded
                 attacker.getRandomCard();
             } else {
-                //Since attacking player has maximum number of cards on hand for an attack, the new card drawn from deck is discarded
                 attacker.getDamageCardsOnHand().add(attacker.getRandomCard());
             }
         } else {
