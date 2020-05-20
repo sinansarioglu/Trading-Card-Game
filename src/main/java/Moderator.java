@@ -7,6 +7,7 @@ public class Moderator {
     private final int maxCardCountOnHand = 5;
 
     public Moderator(Player player1, Player player2) {
+        //Make toss-coin to decide who is starting first
         this.isPlayer1Turn = new Random().nextBoolean();
         this.attacker = this.isPlayer1Turn ? player1 : player2;
         this.opponent = this.isPlayer1Turn ? player2 : player1;
@@ -18,9 +19,11 @@ public class Moderator {
             if(attacker.getDamageCardsOnHand().size() >= maxCardCountOnHand) {
                 attacker.getRandomCard();
             } else {
+                //Since attacking player has maximum number of cards on hand for an attack, the new card drawn from deck is discarded
                 attacker.getDamageCardsOnHand().add(attacker.getRandomCard());
             }
         } else {
+            //Since there is no card in deck, attacking player get 1 health damage
             attacker.setHealth(attacker.getHealth()-1);
             if(attacker.getHealth() <= 0) {
                 return false;
@@ -32,6 +35,7 @@ public class Moderator {
     public boolean attack(Player attacker, Player opponent, int cardIndex) {
         if(cardIndex >= 0 && cardIndex < attacker.getDamageCardsOnHand().size()) {
             DamageCard damageCard = attacker.getDamageCardsOnHand().get(cardIndex);
+            //Player has enough mana to attack with selected DamageCard
             if(attacker.getRemainingMana() >= damageCard.getManaCost()) {
                 attacker.getDamageCardsOnHand().remove(damageCard);
                 attacker.setRemainingMana(attacker.getRemainingMana()-damageCard.getManaCost());
@@ -41,14 +45,17 @@ public class Moderator {
                     return false;
                 opponent.setHealth(opponentHealth);
             } else {
+                //Player does not have enough mana to attack with selected DamageCard
                 throw new EnoughManaException();
             }
         } else {
+            //Player request an attack with a non-valid DamageCard
             throw new InvalidCardException();
         }
         return true;
     }
 
+    //Update attacking and opponent players
     public void changeAttacker() {
         setPlayer1Turn(!isPlayer1Turn());
         Player temp = getAttacker();

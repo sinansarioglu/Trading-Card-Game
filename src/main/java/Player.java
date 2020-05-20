@@ -9,6 +9,7 @@ public class Player {
     private int health;
     private int manaSlot = 0;
     private int remainingMana;
+    private int maximumManaSlot = 10;
     private Random random = new Random();
 
     public Player(String name) {
@@ -48,14 +49,17 @@ public class Player {
     }
 
     public DamageCard getRandomCard() {
+        //Get a random DamageCard from the player's DamageCard deck
         DamageCard card = damageCardDeck.get(random.nextInt(damageCardDeck.size()));
         damageCardDeck.remove(card);
         return card;
     }
 
     public void updateManaSlotAndRefreshRemainingMana() {
-        if(this.manaSlot < 10)
+        //Update manaSlot as long as it does not reach to maximumManaSlot count
+        if(this.manaSlot < this.maximumManaSlot)
             this.manaSlot++;
+        //Update remainig mana of the player
         setRemainingMana(getManaSlot());
     }
 

@@ -16,9 +16,11 @@ public class GameEngine {
         System.out.println("Toss-Coin is being done to decide who is starting...");
         try {
             while (true) {
+                //Necessary updates are held at start of each turn
                 if(!moderator.onTurnStart(moderator.getAttacker())) {
                     System.out.println(moderator.getOpponent().getName() + " won the match!");
                 }
+                //Player can attack multiple times in a turn
                 while(true) {
                     System.out.println("******* " + moderator.getAttacker().getName() + "'s turn *******");
                     System.out.println("Remaining mana to use in this round: " + moderator.getAttacker().getRemainingMana());
@@ -44,6 +46,7 @@ public class GameEngine {
                     else {
                         try {
                             int index = Integer.parseInt(line);
+                            //Attack with a valid DamageCard
                             if(!moderator.attack(moderator.getAttacker(),moderator.getOpponent(),index)) {
                                 System.out.println(moderator.getAttacker().getName() + " won the match!");
                                 return;
